@@ -1,5 +1,6 @@
 # Docker: a platform used to create, deploy and run the applications using containers
 #Containers: contains application along with all its dependencies packages in single unit
+# Container Management: involves automating the process of creation, deployment and scaling of containers.
 
 #Objectives:
 # Step 1: install Prerequisite
