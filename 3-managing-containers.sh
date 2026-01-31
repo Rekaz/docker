@@ -81,4 +81,18 @@ docker container restart server003
 
 docker container ls -a # list all running and exited containers
 
+#create a container and expose it on a custom port to the container
+docker container run nginx --name web02 -dit -p 8080:80 # container port is 80 and it is exposed to port 8080 of host
+
+docker container ls -a # list all running and exited containers
+
+# create a container and expose it to random port (host port default dynamic range is 32768-60999)
+docker container run nginx --name web03 -dit -P 
+
+docker container ls -a # list all running and exited containers
+
+# inspect a container
+docker container inspect web02 | grep -e "HostPort" -e "IPAddress" | uniq
+
+curl 172.17.0.2 # to access the webserver by using container IP
 
