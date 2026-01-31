@@ -27,3 +27,58 @@ docker container run centos --name server02 -i -t
 ps 
 exit
 
+# create a container and it starts in detached mode (it runs in background)
+docker container run centos --name server03 -dit
+
+docker container ls -a # to list all running and exited containers
+
+# to attach with the running container
+docker container attach server03
+
+ps
+
+# to exit the container, use ctrl + pq
+
+#to run a command inside a container without "attach"ing to it
+docker container exec server03 cat /etc/resolve.conf
+
+# rename the existing container
+docker container rename server03 server003
+
+docker container ls -a # list all running and exited containers
+
+# pause the exisitng running container
+docker container pause server003
+
+docker container ls -a # list all running and exited containers
+
+# to unpause thecontainer
+docker container unpause server003
+
+docker container ls -a # list all running and exited containers
+
+# to stop the container
+docker container stop server003
+
+docker container ls -a # list all running and exited containers
+
+#to start the earlier stopped container
+docker container start server003
+
+docker container ls -a # list all running and exited containers
+
+docker container start server02
+
+docker container ls -a # list all running and exited containers
+
+# to kill the container
+docker container kill server003
+
+docker container ls -a # list all running and exited containers
+
+# to restart/start the container (both are same, start and restart)
+docker container restart server003
+
+docker container ls -a # list all running and exited containers
+
+
