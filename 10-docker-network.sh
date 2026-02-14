@@ -55,6 +55,9 @@ docker container ls
 docker network inspect dev-network | grep -i name -A 4
 docker network inspect bridge | grep -i name -A 4
 
+# NOTE: containers attached to user defined network can't only communicate with other container using IP address but also with the container name (so container name can ber resolved to IP address). this is called automatic service discovery.
+
+
 
 
 
