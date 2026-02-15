@@ -55,10 +55,13 @@ docker container ls
 docker network inspect dev-network | grep -i name -A 4
 docker network inspect bridge | grep -i name -A 4
 
-# NOTE: containers attached to user defined network can't only communicate with other container using IP address but also with the container name (so container name can ber resolved to IP address). this is called automatic service discovery.
+# NOTE: containers attached to user defined network can't only communicate with other container using IP address but also with the container name (so container name can be resolved to IP address). this is called automatic service discovery.
 
-
-
+docker container exec -it dev-container1 sh
+ping -c 2 dev-container1
+ping -c 2 dev-container2
+ping -c 2 dev-container3
+ping -c 2 centos-4   # this won't work, because centos-4 is on bridge network named "bridge" and dev-container1 is attached to bridge network named "dev-network".
 
 
 
