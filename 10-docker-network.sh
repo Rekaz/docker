@@ -63,5 +63,48 @@ ping -c 2 dev-container2
 ping -c 2 dev-container3
 ping -c 2 centos-4   # this won't work, because centos-4 is on bridge network named "bridge" and dev-container1 is attached to bridge network named "dev-network".
 
+# as dev-container3 is attached to "default" bridge network and dev-network. so, it can communicate to all containers
+docker container exec -it dev-container3 sh
+ping -c 2 dev-container1
+ping -c 2 dev-container2
+ping -c 2 dev-container3
+ping -c 2 172.17.0.2
+ping -c 2 centos-4 # this won't work, since centos-4 is connected to "default" bridge network, not the user-defined network. The automatic service discovry only work for user-defined network, not for default bridge network.
 
 
+# create a new container with custom subnet
+docker network create --subnet 172.25.0.0/16 new-net01
+docker network inspect new-net01
+
+# create a new container and attach it to new-net01, observe if it gets the ip into the same subnet or not
+docker container run --name web01 -dit --network=new-net01 nginx
+docker container inspect web01 | grep -i ipaddress
+
+# specify a static ip while creating a container
+docker container run --name web02 -dit --network=new-net01 --ip 172.25.0.10 nginx
+docker container inspect web02 | grep -i ipaddress
+
+
+# create a new network bridge with custom subnet and gateway
+docker network create -o "com.docker.network.bridge.name"="docker1" --subnet 172.26.0.0/16 --gateway 172.26.0.1 custom01
+docker network ls
+
+
+# disconnect container "web02" from network "new-net01"
+docker network disconnect new-net01 web02
+
+# create a container and attach it to host network
+docker container run --name web03 -dit --network=host nginx
+
+docker container inspect web03 | grep -i ipaddress
+docker container inspect web03 | grep ipaddress
+docker container inspect web03 | grep -i NetworkMode
+
+# access web03 using docker host ip
+curl 192.168.100.10
+
+
+
+echo -e '\033[0;32mStep 3: Cleanup \033[0m'
+docker container rm `docker container ls -a -q` -f
+docker image rm `docker image ls -a -q` -f
