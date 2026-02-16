@@ -46,7 +46,7 @@ docker network inspect dev-network # inspect the dev-network, you can see the IP
 docker container run --name dev-container1 -dit --network dev-network centos:7
 docker container run --name dev-container2 -dit --network dev-network centos:7
 docker container run --name dev-container3 -dit --network dev-network centos:7
-docker container run --name centos-4 -dit centos
+docker container run --name centos-4 -dit centos:7
 
 # bridge network is attached with dev-container3
 docker network connect bridge dev-container3
