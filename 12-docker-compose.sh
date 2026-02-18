@@ -21,7 +21,7 @@ docker compose up -d
 echo -e '\033[0;32mStep 4: Cleanup \033[0m'
 docker compose stop
 docker compose rm -f # remove the containers
-docker compose down # remove the user defined network created
+docker compose down -v # stop and remove the containers and networks, along with volumes as well ("docker compose down" will only stops and removes the containers and networks but don't do anything with volumes, volume data persists)
 docker image rm `docker image ls -q` -f
 docker volume prune -f
 docker network prune -f
